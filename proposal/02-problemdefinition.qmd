@@ -4,21 +4,33 @@ bibliography: references.bib
 
 # The Problem
 
-```{=html}
-<!--
-Outlining the issue / weak point / problem to be solved by this
-proposal. This should be a compelling section that sets the reader up
-for the next section - the proposed solution!
+## The spatial data bottleneck in R
 
-It is important to cover:
+The dominant spatial workflow in R — using **{sf}** [@sfbook, @sf] to read, transform, and analyse vector data — requires all data to be fully loaded into RAM before any operation can take place. For datasets containing millions of geometries (e.g., global road networks, regional buildings), this forces practitioners into slow workarounds such as tiling, chunking, or offloading to external tools.
 
- - [ ] What the problem is
- - [ ] Who it affects
- - [ ] Why is it a problem
- - [ ] What will solving the problem enable (why should it be solved)
- - [ ] Brief summary of existing work and previous attempts (e.g., relevant R packages)
- - [ ] If proposing changes to R itself: letter of support from R Core member
--->
-```
+This affects a wide audience: spatial data scientists, ecologists, urban planners, remote sensing analysts, and forest engineers who routinely work with datasets that exceed available memory.
 
-An example in-text citation [@wickham2016].
+## The missing piece: DuckDB as a spatial backend
+
+DuckDB [@duckdb] is an embedded analytical engine that executes complex queries on disk-resident data with minimal memory overhead. Its spatial extension supports geometry operations including predicates,
+transformations, buffers, and spatial joins. The [H3 extension](https://duckdb.org/community_extensions/extensions/h3) adds native support for Uber's hierarchical hexagonal indexing system, widely used in mobility analysis, ecological modelling, and spatial aggregation.
+
+Despite these capabilities, no first-class R interface exists. Users must either write raw SQL or use workarounds that materialise data into R memory anyway.
+
+## Existing packages and their limitations
+
+- **{sf}** [@sfbook, @sf] — the gold standard for spatial vector data, but inherently eager: every operation materialises data in R memory.
+- **{duckplyr}** [@duckplyr] and **{dbplyr}** [@dbplyr] — provide lazy {dplyr} evaluation via DuckDB, but neither handles spatial data types.
+- **{sfarrow}** [@sfarrow] and **{geoarrow}** [@geoarrow] — Arrow-based spatial I/O, but no analytical query layer.
+- **{h3jsr}** [@h3jsr] and **{h3o}** [@h3o] — H3 indexing in R, but both operate entirely in R memory.
+
+No existing package connects R's spatial ecosystem to DuckDB's spatial and H3 engines in a lazy, memory-efficient, and idiomatic way.
+
+## What solving this enables
+
+**{duckspatial}** and **{duckh3}** fill this gap with a lazy spatial data frame class (`duckspatial_df`) that pushes computation into DuckDB, returning results to R only when explicitly requested. This enables:
+
+- Analysis of datasets exceeding available RAM with no tiling or chunking required.
+- Geometry operations and spatial joins on multi-gigabyte files read directly from disk.
+- Large-scale H3 aggregation integrated with the same lazy workflow.
+- Familiar **{sf}**-style function names so existing users can adopt the packages without relearning an API.
