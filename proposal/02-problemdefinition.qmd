@@ -6,7 +6,11 @@ bibliography: references.bib
 
 ## The spatial data bottleneck in R
 
-The dominant spatial workflow in R — using **{sf}** [@sfbook, @sf] to read, transform, and analyse vector data — requires all data to be fully loaded into RAM before any operation can take place. For datasets containing millions of geometries (e.g., global road networks, regional buildings), this forces practitioners into slow workarounds such as tiling, chunking, or offloading to external tools.
+The dominant spatial workflow in R — using **{sf}** [@sfbook, @sf] to read, transform, and analyse vector data — requires all data to be fully loaded into RAM before any operation can take place. While {sf} can leverage GDAL to perform predicate pushdown at the driver level, subsequent analysis generally requires the active dataset to be fully materialized as R objects in-memory, specifically as S3 list-columns of atomic numeric matrices. For datasets containing millions of geometries (e.g., global road networks, buildings), this forces users into slow workarounds such as tiling, chunking, or offloading to external tools. This bottleneck is largely driven by the memory allocation overhead and garbage collection pressure of managing millions of individual R objects in large datasets.
+
+Furthermore, while {sf} is optimized for vertex-level access, it introduces significant serialization overhead for bulk operations. Most geometric engines require WKB (Well-Known Binary) roundtrips to ingest data from R lists, incurring substantial computational costs at every step of a pipeline. The **{geos}** [@geos] package partially mitigates this by maintaining geometries as stable C-level GEOSGeometry structures accessed via external pointers (`externalptr`), successfully bypassing the serialization cycle for geometric computations.
+
+However, {geos} remains a geometry-centric library rather than a spatial data engine. While it optimizes the path for individual geometry operations, it does not address the fundamental limitations of the R environment: the lack of true out-of-core processing, the absence of a columnar memory layout for spatial data, and the high cost of performing relational spatial joins on massive datasets. Even with {geos}, the user is still limited by the speed of R’s single-threaded data management and the hard ceiling of available system RAM.
 
 This affects a wide audience: spatial data scientists, ecologists, urban planners, remote sensing analysts, and forest engineers who routinely work with datasets that exceed available memory.
 
@@ -20,6 +24,7 @@ Despite these capabilities, no first-class R interface exists. Users must either
 ## Existing packages and their limitations
 
 - **{sf}** [@sfbook, @sf] — the gold standard for spatial vector data, but inherently eager: every operation materialises data in R memory.
+- **{geos}** [@geos] — optimizes geometry operations via C-level structures, but does not provide a spatial data engine or support for out-of-core processing.
 - **{duckplyr}** [@duckplyr] and **{dbplyr}** [@dbplyr] — provide lazy {dplyr} evaluation via DuckDB, but neither handles spatial data types.
 - **{sfarrow}** [@sfarrow] and **{geoarrow}** [@geoarrow] — Arrow-based spatial I/O, but no analytical query layer.
 - **{h3jsr}** [@h3jsr] and **{h3o}** [@h3o] — H3 indexing in R, but both operate entirely in R memory.
