@@ -13,10 +13,7 @@ This proposal requests **$4,576** over 12 months to fund:
 - Test coverage raised to ≥85% in both packages.
 - New spatial functions completing the {duckspatial} analytical toolkit.
 - Expanded {dplyr} verb support for `duckspatial_df` lazy spatial frames.
-- Explore visualization support for `duckspatial_df` objects.
-- Explore the support of the `raster` extension in a new package.
 - A reproducible performance benchmark vignette.
-- Ongoing maintenance against new DuckDB releases throughout the grant period.
 
 Work will be communicated through quarterly R Consortium blog posts, release announcements, YouTube videos, and a planned Udemy course.
 

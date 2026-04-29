@@ -18,8 +18,6 @@ The funded work will deliver:
 - New spatial functions completing the {duckspatial} analytical toolkit.
 - Expanded {dplyr} verb support for `duckspatial_df` lazy spatial frames.
 - A reproducible performance benchmark vignette.
-- Ongoing maintenance against new DuckDB releases.
-- Exploration of `duckspatial_df` visualisation support (e.g. {ggsql}, `geoarrowWidget` [@geoarrowWidget]).
 
 ## Detail
 

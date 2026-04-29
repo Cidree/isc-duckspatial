@@ -24,7 +24,7 @@ bibliography: references.bib
 | 9–10 | Publish performance benchmark vignette including huge datasets |
 | 10–12 | Buffer for DuckDB upstream changes, CRAN resubmissions, and community feedback |
 
-CI against the latest DuckDB release will run throughout the entire period. The development of a new package that covers the `raster` extension will be considered.
+CI against the latest DuckDB release will run throughout the entire period.
 
 ## Other aspects
 
