@@ -9,22 +9,23 @@ bibliography: references.bib
 The project is complete when:
 
 -   All exported functions in both packages have complete documentation with working examples.
--   Test coverage reaches ≥85% in both packages.
+-   Test coverage reaches ≥90% in both packages.
 -   Each package has a vignette suite (≥5 vignettes per package) covering basic concepts and real-world workflows.
 -   All planned spatial functions are implemented, documented, and tested.
 -   {dplyr} verb support for `duckspatial_df` is complete and tested.
 -   A reproducible performance benchmark vignette is published.
 -   Both packages pass `R CMD check` with no errors or warnings against the latest CRAN and development versions of DuckDB.
+-   An academic paper introducing both packages is accepted for publication.
 
 ## Measuring success
 
 Progress will be tracked through:
 
--   **Test coverage**: monitored via Codecov on every push. Target ≥85% for both packages.
+-   **Test coverage**: monitored via Codecov on every push. Target ≥90% for both packages.
 -   **CRAN downloads**: {duckspatial} currently receives \~820 downloads per month (4,144 total). A sustained increase following the documentation and vignette work would indicate improved discoverability and adoption.
 -   **GitHub engagement**: issues opened, pull requests from external contributors, and stars as proxies for community interest.
 -   **CI stability**: a passing CI badge against DuckDB's latest release as a continuous health indicator.
 
 ## Future work
 
-The most natural extension is **raster support** via DuckDB's emerging [`raster` community extension](https://duckdb.org/community_extensions/extensions/raster){target="_blank"}, which would allow a new package (e.g. `duckraster`) to handle raster data with the same lazy, memory-efficient interface currently available for vector data. This would substantially broaden the package's scope and close the remaining gap with {sf} + {terra} workflows.
+The most natural extension is **raster support** via DuckDB's emerging [`raster` community extension](https://duckdb.org/community_extensions/extensions/raster){target="_blank"}, which would allow a new package (e.g. `duckraster`) to handle raster data with the same lazy, memory-efficient interface currently available for vector data. This would a natural expansion of the package and substantially broaden the package's scope and close the remaining gap with {sf} + {terra} workflows.

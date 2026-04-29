@@ -18,11 +18,12 @@ bibliography: references.bib
 | 1-12 | Implement missing spatial functions in {duckspatial}, and add new developed functions on the way; expand {dplyr} verb support for `duckspatial_df` |
 | 1–2 | Complete documentation for all exported functions in {duckspatial}; add missing `@examples` |
 | 2–3 | Complete documentation for all exported functions in {duckh3}; add missing `@examples` |
-| 3–4 | Expand test suite in {duckspatial} to ≥85% coverage |
-| 4–5 | Expand test suite in {duckh3} to ≥85% coverage |
+| 3–4 | Expand test suite in {duckspatial} to ≥90% coverage |
+| 4–5 | Expand test suite in {duckh3} to ≥90% coverage |
 | 7–9 | Write vignette suite (≥3 per package) covering real-world workflows |
 | 9–10 | Publish performance benchmark vignette including huge datasets |
 | 10–12 | Buffer for DuckDB upstream changes, CRAN resubmissions, and community feedback |
+| 10–12 | Posts on social media and submission of paper to a journal |
 
 CI against the latest DuckDB release will run throughout the entire period.
 
@@ -37,6 +38,7 @@ Progress will be communicated through:
 -   Short videos on YouTube covering new features and workflows.
 -   A planned Udemy course providing a structured introduction to both packages.
 -   Posts on social media (e.g. LinkedIn) at each milestone.
+-   A paper published in an academic journal
 
 ## Budget & funding plan
 

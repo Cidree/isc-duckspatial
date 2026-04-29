@@ -10,6 +10,9 @@ Adrián Cidre is a forest engineer, spatial data scientist, and R package develo
 
 Egor Kotov is a researcher, data engineer, and R package developer specializing in spatial data, API access, and big data processing. He has previously developed packages based on the `duckdb` engine ([`{spanishoddata}`](https://github.com/rOpenSpain/spanishoddata)).
 
+Rafael H. M. Pereira is a researcher and head of data science at the Institute for Applied Economic Research (Ipea - Brazil). He develops open-source tools for spatial data science, urban analytics, and transport research, with 15 R packages published on CRAN.
+
+
 ## Contributors
 <!--
 Who are the people who have actively helped with this proposal but

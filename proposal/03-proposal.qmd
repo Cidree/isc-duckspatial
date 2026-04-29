@@ -14,10 +14,11 @@ The funded work will deliver:
 
 - Complete documentation with worked examples for every exported function.
 - A vignette suite (≥5 per package) covering real-world workflows.
-- Test coverage raised to ≥85% in both packages.
+- Test coverage raised to ≥90% in both packages.
 - New spatial functions completing the {duckspatial} analytical toolkit.
 - Expanded {dplyr} verb support for `duckspatial_df` lazy spatial frames.
 - A reproducible performance benchmark vignette.
+- A paper published in an academic journal and blog and social media posts to help disseminate the package
 
 ## Detail
 

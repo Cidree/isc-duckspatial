@@ -12,12 +12,13 @@ Furthermore, while {sf} is optimized for vertex-level access, it introduces sign
 
 However, {geos} remains a geometry-centric library rather than a spatial data engine. While it optimizes the path for individual geometry operations, it does not address the fundamental limitations of the R environment: the lack of true out-of-core processing, the absence of a columnar memory layout for spatial data, and the high cost of performing relational spatial joins on massive datasets. Even with {geos}, the user is still limited by the speed of R’s single-threaded data management and the hard ceiling of available system RAM.
 
+Moreover, neither {sf} nor {geos} currently support reading or working directly with `.parquet` files. Parquet is rapidly becoming a widely adopted format for columnar data, owing to its compact storage, efficient I/O, and support for out-of-memory workflows with Duckdb and Arrow. Unsurprisingly, GeoParquet is now being widely adopted for managing vector spatial data at scale but its full potential is not yet accessible to R users.
+
 This affects a wide audience: spatial data scientists, ecologists, urban planners, remote sensing analysts, and forest engineers who routinely work with datasets that exceed available memory.
 
 ## The missing piece: DuckDB as a spatial backend
 
-DuckDB [@duckdb] is an embedded analytical engine that executes complex queries on disk-resident data with minimal memory overhead. Its spatial extension supports geometry operations including predicates,
-transformations, buffers, and spatial joins. The [H3 extension](https://duckdb.org/community_extensions/extensions/h3) adds native support for Uber's hierarchical hexagonal indexing system, widely used in mobility analysis, ecological modelling, and spatial aggregation.
+DuckDB [@duckdb] is an embedded analytical engine that executes complex queries on disk-resident data with minimal memory overhead. Its spatial extension supports geometry operations including predicates, transformations, buffers, and spatial joins. Meanwhile, the [H3 extension](https://duckdb.org/community_extensions/extensions/h3) adds native support for Uber's hierarchical hexagonal indexing system, widely used in mobility analysis, ecological modelling, and spatial aggregation.
 
 Despite these capabilities, no first-class R interface exists. Users must either write raw SQL or use workarounds that materialise data into R memory anyway.
 
@@ -35,7 +36,7 @@ No existing package connects R's spatial ecosystem to DuckDB's spatial and H3 en
 
 **{duckspatial}** and **{duckh3}** fill this gap with a lazy spatial data frame class (`duckspatial_df`) that pushes computation into DuckDB, returning results to R only when explicitly requested. This enables:
 
-- Analysis of datasets exceeding available RAM with no tiling or chunking required.
+- Analysis of spatial datasets exceeding available RAM with no tiling or chunking required.
 - Geometry operations and spatial joins on multi-gigabyte files read directly from disk.
 - Large-scale H3 aggregation integrated with the same lazy workflow.
 - Familiar **{sf}**-style function names so existing users can adopt the packages without relearning an API.
