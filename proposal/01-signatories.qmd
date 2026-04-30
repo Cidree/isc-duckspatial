@@ -13,8 +13,3 @@ Egor Kotov is a researcher, data engineer, and R package developer specializing 
 Rafael H. M. Pereira is a researcher and head of data science at the Institute for Applied Economic Research (Ipea - Brazil). He develops open-source tools for spatial data science, urban analytics, and transport research, with 15 R packages published on CRAN.
 
 
-## Contributors
-<!--
-Who are the people who have actively helped with this proposal but
-won't necessarily be on the core project team later?
--->

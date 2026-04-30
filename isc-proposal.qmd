@@ -1,5 +1,5 @@
 ---
-title: "A spatial pond full of ducks: scaling R's spatial ecosystem with DuckDB"
+title: "A pond full of spatial ducks: scaling R's spatial ecosystem with DuckDB"
 author:
   - name: Adrián Cidre González
     orcid: 0000-0002-3310-3052

@@ -6,50 +6,47 @@ bibliography: references.bib
 
 ## Overview
 
-**{duckspatial}** and **{duckh3}** bring DuckDB's spatial and H3 engines into R through a lazy, memory-efficient interface. Both are on CRAN — {duckspatial} v1.0.0 since March 2026, {duckh3} since April 2026. Users can already perform spatial filters, joins, geometry operations, and H3 indexing on data that stays inside DuckDB until explicitly collected.
+**{duckspatial}** and **{duckh3}** bring DuckDB's spatial and H3 engines into R through a lazy, memory-efficient interface. Both are on CRAN and functional: users can already perform spatial filters, joins, geometry operations, and H3 indexing without loading data into R memory.
 
-What both packages currently lack is the polish needed to become reliable long-term tools: documentation is sparse, test coverage is incomplete, several spatial functions are missing, and no published benchmarks exist. This proposal requests funding to close those gaps.
-
-The funded work will deliver:
+What both packages lack is the polish for long-term reliability: documentation is sparse, test coverage is incomplete, several spatial functions are missing, and no benchmarks exist. This proposal funds closing those gaps:
 
 - Complete documentation with worked examples for every exported function.
 - A vignette suite (≥5 per package) covering real-world workflows.
-- Test coverage raised to ≥90% in both packages.
+- Test coverage ≥90% in both packages.
 - New spatial functions completing the {duckspatial} analytical toolkit.
 - Expanded {dplyr} verb support for `duckspatial_df` lazy spatial frames.
 - A reproducible performance benchmark vignette.
-- A paper published in an academic journal and blog and social media posts to help disseminate the package
+- A paper submitted to an academic journal.
 
 ## Detail
 
 ### Minimum Viable Product
 
-Complete documentation and ≥85% test coverage for functions already present in both packages, plus at least two vignettes per package. This alone would substantially lower the barrier to adoption. A stable API that survives DuckDB version updates is also part of the minimum commitment.
+Complete documentation, ≥85% test coverage, and at least two vignettes per package — enough to substantially lower the barrier to adoption — plus a stable API that survives DuckDB version updates.
 
 ### Architecture
 
 Both packages share the same layered architecture:
 
-**Input layer.** Accepts `sf` objects, `duckspatial_df` lazy frames, character table names, or file paths. Data loaded with `ddbs_open_dataset()` passes directly from disk to DuckDB without touching R memory. `sf` inputs are registered as Arrow-scannable objects.
+**Input layer.** Accepts `sf` objects, `duckspatial_df` frames, table names, or file paths. `ddbs_open_dataset()` sends data directly from disk to DuckDB; `sf` inputs are registered as Arrow-scannable objects.
 
-**Query layer.** Spatial operations are translated into DuckDB SQL (e.g. `ST_Intersects`, `ST_Buffer`, `h3_latlng_to_cell`) using {glue} and executed via {DBI}. No data moves to R at this stage.
+**Query layer.** Operations are translated into DuckDB SQL (`ST_Intersects`, `ST_Buffer`, `h3_latlng_to_cell`, etc.) via {glue} and {DBI}. No data moves to R at this stage.
 
-**Output layer.** Results are returned as a `duckspatial_df`, an `sf` object, or a persistent DuckDB table — controlled by the `mode` and `name` arguments present in every function.
+**Output layer.** Results are returned as a `duckspatial_df`, an `sf` object, or a persistent DuckDB table, controlled by `mode` and `name` arguments.
 
-**Connection management.** A default DuckDB connection is created transparently on first use. Cross-connection operations stream data via nanoarrow, falling back to collection only when necessary.
+**Connection management.** A default connection is created transparently on first use. Cross-connection operations stream via nanoarrow.
 
-New spatial functions follow the same pattern — a user-facing function delegates to a shared template — so additions require minimal boilerplate and are straightforward to test and document.
+New functions delegate to a shared template, requiring minimal boilerplate and making them straightforward to test and document.
 
 ### Assumptions
 
-- DuckDB's spatial extension remains actively maintained (considered likely given its inclusion in DuckDB's official extension registry).
-- The native `GEOMETRY` CRS API (DuckDB ≥ 1.5) remains stable. Adaptation work is budgeted if it changes.
-- {sf}, {DBI}, {dplyr}, and {dbplyr} remain broadly stable, as expected for mature packages.
+- DuckDB's spatial extension remains maintained (likely given its official registry status).
+- The native `GEOMETRY` CRS API (DuckDB ≥ 1.5) remains stable; adaptation is budgeted if it changes.
+- {sf}, {DBI}, {dplyr}, and {dbplyr} remain broadly stable.
 
 ### External dependencies
 
 - **DuckDB** via {duckdb} — embedded, no separate installation needed.
-- **DuckDB spatial extension** — auto-installed on first use.
-- **DuckDB H3 extension** — auto-installed by {duckh3}; youngest dependency, monitored throughout the grant period.
-- **{sf}**, **{DBI}**, **{dbplyr}**, **{dplyr}** — connection management, CRS handling, SQL rendering, lazy tables.
-- **{nanoarrow}**, **{geoarrow}**, **{arrow}** — zero-copy data transfer and Arrow-based table registration.
+- **DuckDB spatial / H3 extensions** — auto-installed on first use.
+- **{sf}**, **{DBI}**, **{dbplyr}**, **{dplyr}** — CRS handling, connection management, SQL rendering.
+- **{nanoarrow}**, **{geoarrow}**, **{arrow}** — zero-copy data transfer.
